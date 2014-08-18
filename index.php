@@ -33,7 +33,6 @@
 				float: left;
 				text-align: center;
 			}
-
 		</style>
 	</head>
 	<body>
@@ -75,6 +74,7 @@
 			var camera, cameraTarget, scene, renderer;
 			var modelUrl;
 			var stlmesh;
+			var rotationSpeed = 1.5;
 			document.getElementById('downloadLink').href = modelUrl;
 			init('<?php echo $firstFile; ?>');
 			animate();
@@ -93,10 +93,10 @@
 				container = document.createElement( 'div' );
 				document.body.appendChild( container );
 				camera = new THREE.PerspectiveCamera( 35, window.innerWidth / window.innerHeight, 1, 15 );
-				camera.position.set( 6, .4, 6 );
+				camera.position.set( 6, 2, 6 );
 				//camera.position.z = 300;
 				//camera.position.y = 150;
-				cameraTarget = new THREE.Vector3( 0, -0.25, 0 );
+				cameraTarget = new THREE.Vector3( 0, 0, 0 );
 				scene = new THREE.Scene();
 				//threejs model loading
 				var loader = new THREE.STLLoader();
@@ -104,9 +104,9 @@
 					var geometry = event.content;
 					var material = new THREE.MeshNormalMaterial();
 					stlmesh = new THREE.Mesh( geometry, material );
-					stlmesh.position.set( 0, - 0.25, 0.6 );
 					stlmesh.rotation.set( 0, - Math.PI / 2, 0 );
-					stlmesh.scale.set( 0.75, 0.75, 0.75 );
+					//stlmesh.position.set( 0, 0, 0 );
+					//stlmesh.scale.set( 1, 1, 1 );
 					scene.add( stlmesh );
 				} );
 				loader.load( modelUrl );
@@ -127,7 +127,15 @@
 				*/
 				// keep it big
 				window.addEventListener( 'resize', onWindowResize, false );
-				//setControls();
+				window.onkeyup = function(e) {
+					var key = e.keyCode ? e.keyCode : e.which;
+					if (key == 38) {
+						rotationSpeed += .5;
+					}else if (key == 40) {
+						rotationSpeed -= .5;
+					}
+				}				
+				setControls();
 			}
 			function setControls(){
 				//var radius = sphere.geometry.boundingSphere.radius;
@@ -149,9 +157,13 @@
 			}
 			function render() {
 				var timer = Date.now() * -.001;
-				
-				camera.position.x = Math.cos( timer ) * 10;
-				camera.position.z = Math.sin( timer ) * 10;
+				if(stlmesh){
+					stlmesh.rotation.y = timer * rotationSpeed;
+					//mesh.rotation.y = time * 5;		
+					//parent_node.rotation.z = time * 0.5;
+				}
+				//camera.position.x = Math.cos( timer ) * 10;
+				//camera.position.z = Math.sin( timer ) * 10;
 				camera.lookAt( cameraTarget );
 				renderer.render( scene, camera );
 				
