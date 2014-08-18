@@ -64,12 +64,12 @@
 			<a id="downloadLink" href="#" download="Download Your 3d Model!">Download Your 3d Model!</a>
 		</div>
 
-		<script src="js/three.min.js"></script>
+		<script src="js/threejs/three.min.js"></script>
 
-		<script src="js/loaders/STLLoader.js"></script>
+		<script src="js/threejs/loaders/STLLoader.js"></script>
 
-		<script src="js/Detector.js"></script>
-		<script src="js/libs/stats.min.js"></script>
+		<script src="js/threejs/Detector.js"></script>
+		<script src="js/threejs/libs/stats.min.js"></script>
 
 		<script>
 
